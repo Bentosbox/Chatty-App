@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
 
-class App extends Component {
+class Messagelist extends Component {
+
+  // constructor(props) {
+  //   super(props);
+
+  // }
   render() {
-    console.log("Rendering <App/>");
+    console.log("Rendering <Messagelist/>");
     return (
-
-  <div class="message system">
-    Anonymous1 changed their name to nomnom.
-  </div>
-
-      )
+      <div className="message system">
+      Anonymous1 changed their name to nomnom.
+      </div>
+    );
   }
 }
+
+export default Messagelist;

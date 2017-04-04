@@ -13,16 +13,16 @@ module.exports = {
     publicPath: '/build/'
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        loaders: ['babel-loader'],
+        loader: ['babel-loader'],
         include: path.join(__dirname, 'src')
       },
       {
         test: /\.scss$/,
-        loaders: ["style-loader", "css-loader", "sass-loader"]
+        use: ["style-loader", "css-loader", "sass-loader"]
       }
     ]
   }
-}
+};
