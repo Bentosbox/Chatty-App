@@ -3,6 +3,7 @@ import React, {Component} from 'react';
 class Chatbar extends Component {
   constructor(props) {
     super(props);
+
     this.state = {
       message: "",
       username: props.currentUser.name
@@ -32,7 +33,7 @@ class Chatbar extends Component {
     console.log("Rendering <Chatbar/>");
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" placeholder={this.state.username} />
+        <input className="chatbar-username" placeholder="anonymous1" />
         <input
           onChange={this.handleChange}
           onKeyUp={this.handleKeypress}

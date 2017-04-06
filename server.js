@@ -5,6 +5,7 @@ var config = require('./webpack.config');
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
     watchOptions: {
+      ignored: /node_modules/,
       aggregateTimeout: 300,
       poll: 3000
     }
@@ -16,3 +17,6 @@ new WebpackDevServer(webpack(config), {
 
     console.log('Running at http://0.0.0.0:3000');
   });
+
+
+

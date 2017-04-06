@@ -9,9 +9,9 @@ class Message extends Component {
   render() {
     console.log("Rendering <Message/>");
     return (
-      <div className="message">
-        <span key={this.props.message.username} className="message-username">{this.props.message.username}</span>
-        <span key={this.props.message.content} className="message-content">{this.props.message.content}</span>
+      <div key={this.props.key} className="message">
+        <span className="message-username">{this.props.message.username}</span>
+        <span className="message-content">{this.props.message.content}</span>
       </div>
 
     );

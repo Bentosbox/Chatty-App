@@ -8,12 +8,14 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      currentUser: {name: "Bob"},
+      currentUser: "Anonymous",
       messages: [{
+        id: "0b2635a4-82b0-4e49-803e-2b901be71cf6",
         username: "Bob",
         content: "Has anyone seen my marbles?",
         },
         {
+        id: "0b2635a4-82b0-4e49-803e-2b901be71cf6",
         username: "Anonymous",
         content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
       }]
@@ -22,7 +24,34 @@ class App extends Component {
 
   // this.addMessage = this.addMessage.bind(this);
 
+///connection to socket server
   componentDidMount() {
+    this.socket = new WebSocket("ws://localhost:3001");
+    console.log("Connected to Server");
+
+
+    this.socket.onopen = (event) => {
+      console.log('got a connection');
+    // var sendMessage = {id: "0b2635a4-82b0-4e49-803e-2b901be71cf6", username: "Bob", content: "Hi"}
+      // this.socket.send("Sent to SocketServer");
+    }
+
+    /// broadcast back from websocket message
+    this.socket.onmessage = (messageEvent) => {
+
+      let newMessageEvent = JSON.parse(messageEvent.data);
+      console.log(newMessageEvent);
+      this.state.messages.push(newMessageEvent);
+      this.setState({
+      messages: [...this.state.messages]
+    });
+
+
+    }
+
+
+
+
     console.log("componentDidMount <App />");
     setTimeout(() => {
       console.log("Simulating incoming message");
@@ -35,11 +64,19 @@ class App extends Component {
     }, 3000);
   }
 
+  // ws.on('open', function open() {
+  //   ws.send('{this.state.messages.content}')
+  // }
+
   addMessage = (content) => {
     const username = this.state.currentUser;
-    this.setState({
-      messages: [...this.state.messages, { username, content }]
-    });
+    // console.log("jeremy", [...this.state.messages, { username, content }]);
+    // this.setState({
+      // messages: [...this.state.messages, { username, content }]
+    // });
+    var sendMessage = {username: username, content: content}
+    this.socket.send(JSON.stringify(sendMessage));
+    // console.log("rohit", this.state.messages);
       // let fullMessage = this.state.messages;
       // let newMessage = {
       //   username: this.state.currentUser,
@@ -59,7 +96,7 @@ class App extends Component {
     return (
       <div>
         <MessageList messages={this.state.messages} />
-        <Chatbar currentUser={this.state.currentUser} onMessage={this.addMessage} />
+        <Chatbar currentUser={this.state.currentUser} onMessage={this.addMessage.bind(this)} />
       </div>
     );
   }
