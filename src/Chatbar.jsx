@@ -6,9 +6,10 @@ class Chatbar extends Component {
 
     this.state = {
       message: "",
-      username: props.currentUser.name
+      username: "Anonymous"
     };
   }
+
 
   handleKeypress = (e) => {
     if(e.keyCode !== 13) { return; }
@@ -22,6 +23,9 @@ class Chatbar extends Component {
 
     this.props.onMessage(message);
     this.setState({ message: "" });
+
+    ////setting new username
+    this.setState({ username: e.target.value })
   }
 
   handleChange = (e) => {
@@ -29,11 +33,22 @@ class Chatbar extends Component {
   }
 
 
+
+  handleName = (e) => {
+    console.log(e.target.value);
+  }
+
+
   render() {
     console.log("Rendering <Chatbar/>");
     return (
       <footer className="chatbar">
-        <input className="chatbar-username" placeholder="anonymous1" />
+        <input
+          onChange={this.props.currentUser}
+          onKeyUp={this.handlekeypress}
+          className="chatbar-username"
+          placeholder="Anonymous"
+          value={this.props.value} />
         <input
           onChange={this.handleChange}
           onKeyUp={this.handleKeypress}
