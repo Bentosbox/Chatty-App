@@ -13,8 +13,6 @@ class App extends Component {
     };
   }
 
-  // this.addMessage = this.addMessage.bind(this);
-
 ///connection to socket server
   componentDidMount() {
     this.socket = new WebSocket("ws://localhost:3001");
@@ -38,7 +36,7 @@ class App extends Component {
           messages: [...this.state.messages]
         });
 
-      } else if (newMessageEvent.type === "incomingNotification") {
+      // } else if (newMessageEvent.type === "incomingNotification") {
 
       }
     }
@@ -55,7 +53,6 @@ class App extends Component {
     }, 3000);
   }
 
-
   addMessage = (content) => {
     let username = this.state.currentUser;
     var sendMessage = {
@@ -66,8 +63,6 @@ class App extends Component {
     this.socket.send(JSON.stringify(sendMessage));
   }
 
-
-
   //// passthrough the change on enter
   changeUsername = (content) => {
     if (!(content.KeyCode === 13)) {
@@ -75,11 +70,14 @@ class App extends Component {
       const prevName = this.state.currentUser;
       const newName = content.target.value;
       this.setState({
-        type: "postNotification",
         currentUser: newName,
-        prevName: prevName
       });
-      console.log(content.target.value);
+      const notification = {
+        type: "postNotification",
+        nameNotification: `${prevName} has changed their name to ${newName}`
+      }
+      console.log(notification)
+      this.socket.send(JSON.stringify(notification));
   }
 
   render() {
