@@ -55,7 +55,7 @@ wss.on('connection', (ws) => {
       var sendNotification = {
         type: "incomingNotification",
         id: uuid.v4(),
-        username: parseData.nameNotification,
+        content: parseData.nameNotification,
         }
       wss.clients.forEach((client) => {
         if (client.readyState === webSocket.OPEN) {

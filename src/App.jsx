@@ -11,7 +11,6 @@ class App extends Component {
       usersOnline: 0,
       currentUser: "Anonymous",
       messages: [],
-      notification: ""
     };
   }
 
@@ -48,9 +47,12 @@ class App extends Component {
         }
         case 'incomingNotification': {
           // let messageNotification = {newMessageEvent.username}
-          console.log("notification is : " + newMessageEvent.username);
+          console.log("notification is : " + newMessageEvent.content);
           console.log('RENDERING NOTIFICATION')
-          this.setState({notification: newMessageEvent.username})
+          this.state.messages.push(newMessageEvent);
+          this.setState({
+            messages: [...this.state.messages]
+          });
           break;
         }
         default: {}
@@ -64,7 +66,7 @@ class App extends Component {
     setTimeout(() => {
       console.log("Simulating incoming message");
       // Add a new message to the list of messages in the data store
-      const newMessage = {id: 3, username: "Michelle", content: "Hello there!"};
+      const newMessage = {id: 3, type:"incomingMessage", username: "Michelle", content: "Hello there!"};
       const messages = this.state.messages.concat(newMessage)
       // Update the state of the app component.
       // Calling setState will trigger a call to render() in App and all child components.
@@ -81,6 +83,7 @@ class App extends Component {
     }
     this.socket.send(JSON.stringify(sendMessage));
   }
+
 
   //// passthrough the change on enter
   changeUsername = (username) => {

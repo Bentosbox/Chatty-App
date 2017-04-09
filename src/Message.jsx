@@ -6,14 +6,21 @@ class Message extends Component {
   }
 
   render() {
-    console.log("Rendering <Message/>");
-    return (
-      <div className="message">
-        <span className="message-username">{this.props.message.username}</span>
-        <span className="message-content">{this.props.message.content}</span>
-      </div>
 
-    );
+    console.log("Rendering <Message/>");
+    if (this.props.message.type =="incomingMessage"){
+      return (
+        <div className="message">
+          <span className="message-username">{this.props.message.username}</span>
+          <span className="message-content">{this.props.message.content}</span>
+        </div>
+      );
+    } else if(this.props.message.type =="incomingNotification"){
+      return (<div className ="message system">
+        <span>{this.props.message.content}</span>
+          </div>
+      );
+    }
   }
 }
 
