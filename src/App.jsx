@@ -35,9 +35,6 @@ class App extends Component {
         this.setState({
           messages: [...this.state.messages]
         });
-
-      // } else if (newMessageEvent.type === "incomingNotification") {
-
       }
     }
 
@@ -65,19 +62,17 @@ class App extends Component {
 
   //// passthrough the change on enter
   changeUsername = (content) => {
-    if (!(content.KeyCode === 13)) {
+    const prevName = this.state.currentUser;
+    const newName = content.target.value;
+    this.setState({
+      currentUser: newName,
+    });
+    const notification = {
+      type: "postNotification",
+      nameNotification: `${prevName} has changed their name to ${newName}`
     }
-      const prevName = this.state.currentUser;
-      const newName = content.target.value;
-      this.setState({
-        currentUser: newName,
-      });
-      const notification = {
-        type: "postNotification",
-        nameNotification: `${prevName} has changed their name to ${newName}`
-      }
-      console.log(notification)
-      this.socket.send(JSON.stringify(notification));
+    console.log(notification)
+    this.socket.send(JSON.stringify(notification));
   }
 
   render() {

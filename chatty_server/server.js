@@ -40,11 +40,11 @@ wss.on('connection', (ws) => {
     }
 
     else if (parseData.type = "postNotification") {
-    //   var sendNotification = {
-    //     type: "incomingNotification",
-    //     id: uuid.v4(),
-    //     username: parseData.nameNotification,
-    // }
+      var sendNotification = {
+        type: "incomingNotification",
+        id: uuid.v4(),
+        username: parseData.nameNotification,
+        }
       wss.clients.forEach((client) => {
         if (client.readyState === webSocket.OPEN) {
           console.log("sending Broadcast")

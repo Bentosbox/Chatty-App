@@ -23,8 +23,12 @@ class Chatbar extends Component {
 
     this.props.onMessage(message);
     this.setState({ message: "" });
+  }
 
-    ////setting new username
+  handleNameChange = (e) => {
+    if (e.keyCode !== 13) { return; }
+
+    this.props.onMessage(e.target.value);
     this.setState({ username: e.target.value })
   }
 
@@ -45,7 +49,7 @@ class Chatbar extends Component {
       <footer className="chatbar">
         <input
           onChange={this.props.currentUser}
-          onKeyUp={this.handlekeypress}
+          onKeyUp={this.handleNameChange}
           className="chatbar-username"
           placeholder="Anonymous"
           value={this.props.value} />
