@@ -4,9 +4,7 @@ class Message extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
-
     console.log("Rendering <Message/>");
     if (this.props.message.type =="incomingMessage"){
       return (

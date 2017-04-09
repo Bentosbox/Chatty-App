@@ -3,13 +3,11 @@ import React, {Component} from 'react';
 class Chatbar extends Component {
   constructor(props) {
     super(props);
-
     this.state = {
       message: "",
       username: "Anon"
     };
   }
-
 
   handleKeypress = (e) => {
     if(e.keyCode !== 13) { return; }
