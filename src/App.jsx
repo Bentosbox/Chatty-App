@@ -8,8 +8,10 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      usersOnline: 0,
       currentUser: "Anonymous",
-      messages: []
+      messages: [],
+      notification: ""
     };
   }
 
@@ -26,11 +28,17 @@ class App extends Component {
     this.socket.onmessage = (messageEvent) => {
       console.log(messageEvent.data)
       let newMessageEvent = JSON.parse(messageEvent.data);
+      // let clientCount = JSON.parse(messageEvent.data);
       console.log(newMessageEvent);
 
 
     ////// SWITCH SETUP IF TIME
       switch(newMessageEvent.type) {
+        case 'incomingClient': {
+          console.log("this is the client count")
+          this.setState({usersOnline: newMessageEvent.count})
+          break;
+        }
         case 'incomingMessage': {
           this.state.messages.push(newMessageEvent);
           this.setState({
@@ -39,10 +47,14 @@ class App extends Component {
           break;
         }
         case 'incomingNotification': {
-
+          // let messageNotification = {newMessageEvent.username}
+          console.log("notification is : " + newMessageEvent.username);
           console.log('RENDERING NOTIFICATION')
+          this.setState({notification: newMessageEvent.username})
+          break;
         }
         default: {}
+
       }
 
 
@@ -94,7 +106,13 @@ class App extends Component {
     console.log("Rendering <App/>");
     return (
       <div>
-        <MessageList messages={this.state.messages} />
+        <nav className="navbar">
+         <a href="/" className="navbar-brand">Chatty</a>
+        <div className="user-count">{this.state.usersOnline} users online</div>
+        </nav>
+        <MessageList
+          messages={this.state.messages}
+          notification={this.state.notification}/>
         <Chatbar
           handleUserOnKeyup={this.handleUserOnKeyup.bind(this)}
           onMessage={this.addMessage.bind(this)} />
