@@ -23,7 +23,7 @@ wss.on('connection', (ws) => {
     console.log("received by web server")
     let parseData = JSON.parse(message);
 
-    if (parseData.type = "postMessage") {
+    if (parseData.type === "postMessage") {
       var sendMessage = {
         type: "incomingMessage",
         id: uuid.v4(),
@@ -39,7 +39,7 @@ wss.on('connection', (ws) => {
       });
     }
 
-    else if (parseData.type = "postNotification") {
+    else if (parseData.type === "postNotification") {
       var sendNotification = {
         type: "incomingNotification",
         id: uuid.v4(),

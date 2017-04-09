@@ -6,7 +6,7 @@ class Chatbar extends Component {
 
     this.state = {
       message: "",
-      username: "Anonymous"
+      username: "Anon"
     };
   }
 
@@ -25,36 +25,27 @@ class Chatbar extends Component {
     this.setState({ message: "" });
   }
 
-  handleNameChange = (e) => {
-    if (e.keyCode !== 13) { return; }
-
-    this.props.onMessage(e.target.value);
-    this.setState({ username: e.target.value })
-  }
-
-  handleChange = (e) => {
+  handleChangeMessageValue = (e) => {
     this.setState({ message: e.target.value });
   }
 
-
-
-  handleName = (e) => {
-    console.log(e.target.value);
+  handleChangeNameValue = (e) => {
+    console.log('onCHANGE', e.target.value)
+    this.setState({ username: e.target.value })
   }
 
-
   render() {
-    console.log("Rendering <Chatbar/>");
+    console.log("Rendering <Chatbar/>", this.props);
     return (
       <footer className="chatbar">
         <input
-          onChange={this.props.currentUser}
-          onKeyUp={this.handleNameChange}
+          onChange={this.handleChangeNameValue}
+          onKeyUp={this.props.handleUserOnKeyup}
           className="chatbar-username"
           placeholder="Anonymous"
-          value={this.props.value} />
+          value={this.state.username} />
         <input
-          onChange={this.handleChange}
+          onChange={this.handleChangeMessageValue}
           onKeyUp={this.handleKeypress}
           className="chatbar-message"
           placeholder="Type a message and hit ENTER"

@@ -30,12 +30,22 @@ class App extends Component {
 
 
     ////// SWITCH SETUP IF TIME
-      if (newMessageEvent.type === "incomingMessage") {
-        this.state.messages.push(newMessageEvent);
-        this.setState({
-          messages: [...this.state.messages]
-        });
+      switch(newMessageEvent.type) {
+        case 'incomingMessage': {
+          this.state.messages.push(newMessageEvent);
+          this.setState({
+            messages: [...this.state.messages]
+          });
+          break;
+        }
+        case 'incomingNotification': {
+
+          console.log('RENDERING NOTIFICATION')
+        }
+        default: {}
       }
+
+
     }
 
     console.log("componentDidMount <App />");
@@ -61,26 +71,33 @@ class App extends Component {
   }
 
   //// passthrough the change on enter
-  changeUsername = (content) => {
+  changeUsername = (username) => {
+    console.log('SAVING NEW USERNAME:', username)
     const prevName = this.state.currentUser;
-    const newName = content.target.value;
+
     this.setState({
-      currentUser: newName,
+      currentUser: username,
     });
     const notification = {
       type: "postNotification",
-      nameNotification: `${prevName} has changed their name to ${newName}`
+      nameNotification: `${prevName} has changed their name to ${username}`
     }
-    console.log(notification)
+    console.log('NOTIFICATION: ', notification)
     this.socket.send(JSON.stringify(notification));
   }
 
+  handleUserOnKeyup = (e) => {
+    if (e.keyCode !== 13) { return; }
+    this.changeUsername(e.target.value)
+  }
   render() {
     console.log("Rendering <App/>");
     return (
       <div>
         <MessageList messages={this.state.messages} />
-        <Chatbar value={this.state.currentUser} currentUser={this.changeUsername} onMessage={this.addMessage.bind(this)} />
+        <Chatbar
+          handleUserOnKeyup={this.handleUserOnKeyup.bind(this)}
+          onMessage={this.addMessage.bind(this)} />
       </div>
     );
   }
